@@ -128,7 +128,7 @@ const SignupPage = () => {
                 dateFormat="dd/MM/yyyy"
                 // timeIntervals={15}
                 // filterTime={(time) => filterPassedTime(time, "startDate")}
-                crossOrigin={undefined}
+                // crossOrigin={undefined}
                 required
               />
             </div>
