@@ -33,24 +33,31 @@ const SignupPage = () => {
     minLength: 8,
     type: 'password',
   });
+  const {
+    inputValue: email,
+    onBlurHandler: handleEmailBlur,
+    onChangeHandler: handleEmailChange,
+    error: emailErrorMessage,
+  } = useInput({
+    dafaultValue: '',
+    type: 'email',
+  });
+  const {
+    inputValue: name,
+    onBlurHandler: handleNameBlur,
+    onChangeHandler: handleNameChange,
+    error: nameErrorMessage,
+  } = useInput({
+    dafaultValue: '',
+    type: 'name',
+  });
+  // const [name, setName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState<Date | null>(new Date());
-  const [email, setEmail] = useState('');
+
   const [gender, setGender] = useState('');
-  // const [userName, setUserName] = useState('');
-  // const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-  // const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setUserName(event.target.value);
-  // };
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -59,9 +66,6 @@ const SignupPage = () => {
   const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGender(event.target.value);
   };
-  // const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(event.target.value);
-  // };
 
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
@@ -101,48 +105,46 @@ const SignupPage = () => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleFormSubmit}>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Email
-            </label>
-            <div className="mt-2">
-              <input
-                value={email}
-                onChange={handleEmailChange}
-                type="email"
-                required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <Input
-              id="userName"
-              type="text"
-              label="Username"
-              placeholder="emilys"
-              value={userName}
-              error={userNameErrorMessage}
-              onChange={handleUserNameChange}
-              onBlur={handleUserNameBlur}
-            />
-          </div>
-          <div>
-            <Input
-              id="password"
-              type="password"
-              label="Password"
-              placeholder="emilyspass"
-              value={password}
-              error={passwordErrorMessage}
-              onChange={handlePasswordChange}
-              onBlur={handlePasswordBlur}
-            />
-          </div>
-          <div>
+          <Input
+            id="email"
+            type="email"
+            label="Email Address*"
+            value={email}
+            error={emailErrorMessage}
+            onChange={handleEmailChange}
+            onBlur={handleEmailBlur}
+          />
+          <Input
+            id="userName"
+            type="text"
+            label="Username*"
+            placeholder="emilys"
+            value={userName}
+            error={userNameErrorMessage}
+            onChange={handleUserNameChange}
+            onBlur={handleUserNameBlur}
+          />
+          <Input
+            id="password"
+            type="password"
+            label="Password*"
+            placeholder="emilyspass"
+            value={password}
+            error={passwordErrorMessage}
+            onChange={handlePasswordChange}
+            onBlur={handlePasswordBlur}
+          />
+          <Input
+            id="name"
+            type="text"
+            label="Name*"
+            placeholder="Rahul"
+            value={name}
+            error={nameErrorMessage}
+            onChange={handleNameChange}
+            onBlur={handleNameBlur}
+          />
+          {/* <div>
             <label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -159,7 +161,7 @@ const SignupPage = () => {
                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
-          </div>
+          </div> */}
           <div className="sm:flex items-center justify-between xs:space-y-6">
             <div>
               <label

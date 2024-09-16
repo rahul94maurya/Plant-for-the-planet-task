@@ -33,20 +33,6 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // const handleUserNameChange = function (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) {
-  //   const username = event.target.value;
-  //   if (!username) {
-  //     setUserNameErrorMessage('Username is required');
-  //   } else if (username.length < 6) {
-  //     setUserNameErrorMessage('Username must be at least 6 characters long');
-  //   } else if (!/^[a-zA-Z0-9]+$/.test(username)) {
-  //     setUserNameErrorMessage('Username must contain only letters and numbers');
-  //   }
-  //   setUserName(event.target.value);
-  // };
-
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
   ) {
@@ -79,72 +65,26 @@ const LoginPage = () => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleFormSubmit}>
-          <div>
-            <Input
-              id="userName"
-              type="text"
-              label="Username"
-              placeholder="emilys"
-              value={userName}
-              error={userNameErrorMessage}
-              onChange={handleUserNameChange}
-              onBlur={handleUserNameBlur}
-            />
-            {/* <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Username
-            </label>
-            <div className="mt-2">
-              <input
-                value={userName}
-                onChange={handleUserNameChange}
-                type="text"
-                required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div> */}
-          </div>
-
-          <div>
-            <Input
-              id="password"
-              type="password"
-              label="Password"
-              placeholder="emilyspass"
-              value={password}
-              error={passwordErrorMessage}
-              onChange={handlePasswordChange}
-              onBlur={handlePasswordBlur}
-            />
-            {/* <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div> */}
-            {/* <div className="mt-2">
-              <input
-                value={password}
-                onChange={handlePasswordChange}
-                type="password"
-                required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div> */}
-          </div>
-
+          <Input
+            id="userName"
+            type="text"
+            label="Username"
+            placeholder="emilys"
+            value={userName}
+            error={userNameErrorMessage}
+            onChange={handleUserNameChange}
+            onBlur={handleUserNameBlur}
+          />
+          <Input
+            id="password"
+            type="password"
+            label="Password"
+            placeholder="emilyspass"
+            value={password}
+            error={passwordErrorMessage}
+            onChange={handlePasswordChange}
+            onBlur={handlePasswordBlur}
+          />
           <div>
             <button
               type="submit"

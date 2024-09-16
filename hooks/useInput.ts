@@ -1,11 +1,16 @@
-import { getPasswordError, getUserNameError } from '@/lib/utils';
+import {
+  getPasswordError,
+  getUserNameError,
+  getEmailError,
+  getNameError,
+} from '@/lib/utils';
 import { useState } from 'react';
 
 type CustomInputHookProps = {
   dafaultValue: string;
-  maxLength: number;
-  minLength: number;
-  type?: 'username' | 'password';
+  maxLength?: number;
+  minLength?: number;
+  type?: 'username' | 'password' | 'email' | 'name';
 };
 
 export const useInput = ({
@@ -23,6 +28,12 @@ export const useInput = ({
   }
   if (type === 'password') {
     error = getPasswordError({ inputValue, didEdit, maxLength, minLength });
+  }
+  if (type === 'email') {
+    error = getEmailError({ inputValue, didEdit });
+  }
+  if (type === 'name') {
+    error = getNameError({ inputValue, didEdit, maxLength });
   }
   //   const error = getError({ inputValue, didEdit, maxLength, minLength });
 
