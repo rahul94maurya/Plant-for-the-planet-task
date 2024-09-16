@@ -4,44 +4,24 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
+// const geistSans = localFont({
+//   src: './fonts/GeistVF.woff',
+//   variable: '--font-geist-sans',
+//   weight: '100 900',
+// });
+// const geistMono = localFont({
+//   src: './fonts/GeistMonoVF.woff',
+//   variable: '--font-geist-mono',
+//   weight: '100 900',
+// });
 
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(" ");
 // }
 export default function Home() {
-  const router = useRouter();
-  useEffect(() => {
-    // const authStatus = localStorage.getItem("authStatus");
-    // if (!authStatus) {
-    //   router.push("/login");
-    // }
-  }, [router]);
-
-  const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
-    { name: 'Reports', href: '#', current: false },
-  ];
-  const handleLogout = function () {
-    localStorage.removeItem('authStatus');
-    router.replace('/login');
-  };
-
   return (
     <div
-      className={`${geistSans.variable} ${geistMono.variable}items-center justify-items-center min-h-screen gap-16  font-[family-name:var(--font-geist-sans)]`}
+      className={`items-center justify-items-center gap-16  font-[family-name:var(--font-geist-sans)]`}
     >
       {/* <header>This is header</header>
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -138,7 +118,7 @@ export default function Home() {
           </div>
         </nav> */}
 
-        <header className="bg-white shadow">
+        {/* <header className="bg-white shadow">
           <div className="flex items-center px-4">
             <div className="flex-shrink-0">
               <img
@@ -165,13 +145,13 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </header>
+        </header> */}
         <main>
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <div>Welcome to the page</div>
           </div>
         </main>
-        <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+        {/* <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
           <Link
             href="/signup"
             className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -198,7 +178,7 @@ export default function Home() {
             />
             Login
           </Link>
-        </footer>
+        </footer> */}
       </div>
     </div>
   );
