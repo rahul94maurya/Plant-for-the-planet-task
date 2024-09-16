@@ -12,10 +12,25 @@ const LoginPage = () => {
     onBlurHandler: handleUserNameBlur,
     onChangeHandler: handleUserNameChange,
     error: userNameErrorMessage,
-  } = useInput({ dafaultValue: 'emilys', maxLength: 10, minLength: 6 });
+  } = useInput({
+    dafaultValue: 'emilys',
+    maxLength: 10,
+    minLength: 6,
+    type: 'username',
+  });
 
-  // const [password, setPassword] = useState('emilyspass');
-  const [password, setPassword] = useState('');
+  const {
+    inputValue: password,
+    onBlurHandler: handlePasswordBlur,
+    onChangeHandler: handlePasswordChange,
+    error: passwordErrorMessage,
+  } = useInput({
+    dafaultValue: 'emilyspass',
+    maxLength: 20,
+    minLength: 8,
+    type: 'password',
+  });
+
   const [isLoading, setIsLoading] = useState(false);
 
   // const handleUserNameChange = function (
@@ -32,25 +47,21 @@ const LoginPage = () => {
   //   setUserName(event.target.value);
   // };
 
-  const handlePasswordChange = function (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    setPassword(event.target.value);
-  };
-
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
   ) {
     const requestBody = { username: 'emilys', password: 'emilyspass' };
     event.preventDefault();
-    setIsLoading(true);
-    const response = await authenticateUser(requestBody);
-    localStorage.setItem('authStatus', JSON.stringify(response));
-    if (response.token) {
-      router.push('/');
+    if (!userNameErrorMessage && !passwordErrorMessage) {
+      setIsLoading(true);
+      const response = await authenticateUser(requestBody);
+      localStorage.setItem('authStatus', JSON.stringify(response));
+      if (response.token) {
+        router.push('/');
+      }
+      setIsLoading(false);
+      console.log('response data from API', response);
     }
-    setIsLoading(false);
-    console.log('response data from API', response);
   };
 
   return (
@@ -97,7 +108,17 @@ const LoginPage = () => {
           </div>
 
           <div>
-            <div className="flex items-center justify-between">
+            <Input
+              id="password"
+              type="password"
+              label="Password"
+              placeholder="emilyspass"
+              value={password}
+              error={passwordErrorMessage}
+              onChange={handlePasswordChange}
+              onBlur={handlePasswordBlur}
+            />
+            {/* <div className="flex items-center justify-between">
               <label
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -112,8 +133,8 @@ const LoginPage = () => {
                   Forgot password?
                 </a>
               </div>
-            </div>
-            <div className="mt-2">
+            </div> */}
+            {/* <div className="mt-2">
               <input
                 value={password}
                 onChange={handlePasswordChange}
@@ -121,7 +142,7 @@ const LoginPage = () => {
                 required
                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </div>
+            </div> */}
           </div>
 
           <div>
