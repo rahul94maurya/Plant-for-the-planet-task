@@ -5,14 +5,39 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/router';
+import { useInput } from '@/hooks/useInput';
+import Input from '@/components/shared/Input';
 
 const SignupPage = () => {
   const router = useRouter();
+  const {
+    inputValue: userName,
+    onBlurHandler: handleUserNameBlur,
+    onChangeHandler: handleUserNameChange,
+    error: userNameErrorMessage,
+  } = useInput({
+    dafaultValue: 'emilys',
+    maxLength: 10,
+    minLength: 6,
+    type: 'username',
+  });
+
+  const {
+    inputValue: password,
+    onBlurHandler: handlePasswordBlur,
+    onChangeHandler: handlePasswordChange,
+    error: passwordErrorMessage,
+  } = useInput({
+    dafaultValue: 'emilyspass',
+    maxLength: 20,
+    minLength: 8,
+    type: 'password',
+  });
   const [dateOfBirth, setDateOfBirth] = useState<Date | null>(new Date());
   const [email, setEmail] = useState('');
-  const [userName, setUserName] = useState('');
   const [gender, setGender] = useState('');
-  const [password, setPassword] = useState('');
+  // const [userName, setUserName] = useState('');
+  // const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -20,9 +45,9 @@ const SignupPage = () => {
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
-  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value);
-  };
+  // const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setUserName(event.target.value);
+  // };
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -34,9 +59,9 @@ const SignupPage = () => {
   const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGender(event.target.value);
   };
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
+  // const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPassword(event.target.value);
+  // };
 
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
@@ -94,48 +119,28 @@ const SignupPage = () => {
             </div>
           </div>
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Username
-            </label>
-            <div className="mt-2">
-              <input
-                value={userName}
-                onChange={handleUserNameChange}
-                type="text"
-                required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <Input
+              id="userName"
+              type="text"
+              label="Username"
+              placeholder="emilys"
+              value={userName}
+              error={userNameErrorMessage}
+              onChange={handleUserNameChange}
+              onBlur={handleUserNameBlur}
+            />
           </div>
           <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div>
-            <div className="mt-2">
-              <input
-                value={password}
-                onChange={handlePasswordChange}
-                type="password"
-                required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <Input
+              id="password"
+              type="password"
+              label="Password"
+              placeholder="emilyspass"
+              value={password}
+              error={passwordErrorMessage}
+              onChange={handlePasswordChange}
+              onBlur={handlePasswordBlur}
+            />
           </div>
           <div>
             <label
