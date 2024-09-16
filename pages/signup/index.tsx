@@ -51,7 +51,7 @@ const SignupPage = () => {
     dafaultValue: '',
     type: 'name',
   });
-  // const [name, setName] = useState('');
+
   const [dateOfBirth, setDateOfBirth] = useState<Date | null>(new Date());
 
   const [gender, setGender] = useState('');
@@ -81,13 +81,20 @@ const SignupPage = () => {
       password,
       dateOfBirth: dateOfBirth?.toISOString(),
     };
-    setIsLoading(true);
-    const response = await authenticateUser(requestBody);
-    if (response.token) {
-      router.push('/');
+    if (
+      !userNameErrorMessage &&
+      !emailErrorMessage &&
+      !nameErrorMessage &&
+      !passwordErrorMessage
+    ) {
+      setIsLoading(true);
+      const response = await authenticateUser(requestBody);
+      if (response.token) {
+        router.push('/');
+      }
+      setIsLoading(false);
+      console.log('Form submitted:', requestBody);
     }
-    setIsLoading(false);
-    console.log('Form submitted:', requestBody);
   };
 
   return (
@@ -144,24 +151,7 @@ const SignupPage = () => {
             onChange={handleNameChange}
             onBlur={handleNameBlur}
           />
-          {/* <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Name
-            </label>
-            <div className="mt-2">
-              <input
-                value={name}
-                onChange={handleNameChange}
-                type="text"
-                required
-                autoComplete="email"
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div> */}
+
           <div className="sm:flex items-center justify-between xs:space-y-6">
             <div>
               <label
