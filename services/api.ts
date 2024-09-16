@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://dummyjson.com/auth';
+import { API_BASE_URL } from '@/lib/constants';
 
 export const authenticateUser = async function (requestBody: any) {
   const loginData = { username: 'emilys', password: 'emilyspass' };

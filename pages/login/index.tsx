@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import React, { use, useState } from 'react';
-import { authenticateUser } from '../utils/api';
+import React, { useState } from 'react';
+import { authenticateUser } from '@/services/api';
 
 const LoginPage = () => {
   const [userName, setUserName] = useState('emilys');
