@@ -2,18 +2,35 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { authenticateUser } from '@/services/api';
 import { useRouter } from 'next/router';
+import Input from '@/components/shared/Input';
+import { useInput } from '@/hooks/useInput';
 
 const LoginPage = () => {
   const router = useRouter();
-  const [userName, setUserName] = useState('emilys');
-  const [password, setPassword] = useState('emilyspass');
+  const {
+    inputValue: userName,
+    onBlurHandler: handleUserNameBlur,
+    onChangeHandler: handleUserNameChange,
+    error: userNameErrorMessage,
+  } = useInput({ dafaultValue: 'emilys', maxLength: 10, minLength: 6 });
+
+  // const [password, setPassword] = useState('emilyspass');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUserNameChange = function (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    setUserName(event.target.value);
-  };
+  // const handleUserNameChange = function (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) {
+  //   const username = event.target.value;
+  //   if (!username) {
+  //     setUserNameErrorMessage('Username is required');
+  //   } else if (username.length < 6) {
+  //     setUserNameErrorMessage('Username must be at least 6 characters long');
+  //   } else if (!/^[a-zA-Z0-9]+$/.test(username)) {
+  //     setUserNameErrorMessage('Username must contain only letters and numbers');
+  //   }
+  //   setUserName(event.target.value);
+  // };
 
   const handlePasswordChange = function (
     event: React.ChangeEvent<HTMLInputElement>
@@ -28,9 +45,9 @@ const LoginPage = () => {
     event.preventDefault();
     setIsLoading(true);
     const response = await authenticateUser(requestBody);
-    localStorage.setItem('authStatus', JSON.stringify(response))
+    localStorage.setItem('authStatus', JSON.stringify(response));
     if (response.token) {
-      router.push('/')
+      router.push('/');
     }
     setIsLoading(false);
     console.log('response data from API', response);
@@ -52,7 +69,17 @@ const LoginPage = () => {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleFormSubmit}>
           <div>
-            <label
+            <Input
+              id="userName"
+              type="text"
+              label="Username"
+              placeholder="emilys"
+              value={userName}
+              error={userNameErrorMessage}
+              onChange={handleUserNameChange}
+              onBlur={handleUserNameBlur}
+            />
+            {/* <label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
@@ -66,7 +93,7 @@ const LoginPage = () => {
                 required
                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </div>
+            </div> */}
           </div>
 
           <div>
