@@ -2,38 +2,52 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { authenticateUser } from '@/services/api';
 import { useRouter } from 'next/router';
+import Input from '@/components/shared/Input';
+import { useInput } from '@/hooks/useInput';
 
 const LoginPage = () => {
   const router = useRouter();
-  const [userName, setUserName] = useState('emilys');
-  const [password, setPassword] = useState('emilyspass');
+  const {
+    inputValue: userName,
+    onBlurHandler: handleUserNameBlur,
+    onChangeHandler: handleUserNameChange,
+    error: userNameErrorMessage,
+  } = useInput({
+    dafaultValue: 'emilys',
+    maxLength: 10,
+    minLength: 6,
+    type: 'username',
+  });
+
+  const {
+    inputValue: password,
+    onBlurHandler: handlePasswordBlur,
+    onChangeHandler: handlePasswordChange,
+    error: passwordErrorMessage,
+  } = useInput({
+    dafaultValue: 'emilyspass',
+    maxLength: 20,
+    minLength: 8,
+    type: 'password',
+  });
+
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleUserNameChange = function (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    setUserName(event.target.value);
-  };
-
-  const handlePasswordChange = function (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    setPassword(event.target.value);
-  };
 
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
   ) {
     const requestBody = { username: 'emilys', password: 'emilyspass' };
     event.preventDefault();
-    setIsLoading(true);
-    const response = await authenticateUser(requestBody);
-    localStorage.setItem('authStatus', JSON.stringify(response))
-    if (response.token) {
-      router.push('/')
+    if (!userNameErrorMessage && !passwordErrorMessage) {
+      setIsLoading(true);
+      const response = await authenticateUser(requestBody);
+      localStorage.setItem('authStatus', JSON.stringify(response));
+      if (response.token) {
+        router.push('/');
+      }
+      setIsLoading(false);
+      console.log('response data from API', response);
     }
-    setIsLoading(false);
-    console.log('response data from API', response);
   };
 
   return (
@@ -51,59 +65,33 @@ const LoginPage = () => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleFormSubmit}>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Username
-            </label>
-            <div className="mt-2">
-              <input
-                value={userName}
-                onChange={handleUserNameChange}
-                type="text"
-                required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div>
-            <div className="mt-2">
-              <input
-                value={password}
-                onChange={handlePasswordChange}
-                type="password"
-                required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
+          <Input
+            id="userName"
+            type="text"
+            label="Username"
+            placeholder="emilys"
+            value={userName}
+            error={userNameErrorMessage}
+            onChange={handleUserNameChange}
+            onBlur={handleUserNameBlur}
+          />
+          <Input
+            id="password"
+            type="password"
+            label="Password"
+            placeholder="emilyspass"
+            value={password}
+            error={passwordErrorMessage}
+            onChange={handlePasswordChange}
+            onBlur={handlePasswordBlur}
+          />
           <div>
             <button
               type="submit"
               disabled={isLoading}
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              {isLoading ? 'Loading...' : 'Sign in'}
+              {isLoading ? 'Loading...' : 'Login'}
             </button>
           </div>
         </form>
