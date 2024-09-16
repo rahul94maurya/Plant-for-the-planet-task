@@ -34,6 +34,10 @@ export default function Home() {
     { name: 'Calendar', href: '#', current: false },
     { name: 'Reports', href: '#', current: false },
   ];
+  const handleLogout = function () {
+    localStorage.removeItem('authStatus');
+    router.replace('/login');
+  };
 
   return (
     <div
@@ -153,7 +157,7 @@ export default function Home() {
               <div>
                 <button
                   type="submit"
-                  onClick={() => router.replace('/login')}
+                  onClick={handleLogout}
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Logout

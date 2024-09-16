@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { authenticateUser } from '@/services/api';
+import { useRouter } from 'next/router';
 
 const LoginPage = () => {
+  const router = useRouter();
   const [userName, setUserName] = useState('emilys');
   const [password, setPassword] = useState('emilyspass');
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +28,10 @@ const LoginPage = () => {
     event.preventDefault();
     setIsLoading(true);
     const response = await authenticateUser(requestBody);
+    localStorage.setItem('authStatus', JSON.stringify(response))
+    if (response.token) {
+      router.push('/')
+    }
     setIsLoading(false);
     console.log('response data from API', response);
   };
