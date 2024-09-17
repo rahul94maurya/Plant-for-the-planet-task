@@ -1,4 +1,4 @@
-import { genders } from '@/lib/constants';
+import { genders } from '@/lib/data/constants';
 import { authenticateUser } from '@/services/api';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/router';
 import { useInput } from '@/hooks/useInput';
 import Input from '@/components/shared/Input';
+import { setUserIntoLocalStorage } from '@/lib/utility/localStorage';
 
 const SignupPage = () => {
   const router = useRouter();
@@ -15,8 +16,9 @@ const SignupPage = () => {
     onBlurHandler: handleUserNameBlur,
     onChangeHandler: handleUserNameChange,
     error: userNameErrorMessage,
+    setError: setUserNameErrorMessage,
   } = useInput({
-    dafaultValue: 'emilys',
+    dafaultValue: '',
     maxLength: 10,
     minLength: 6,
     type: 'username',
@@ -27,6 +29,7 @@ const SignupPage = () => {
     onBlurHandler: handlePasswordBlur,
     onChangeHandler: handlePasswordChange,
     error: passwordErrorMessage,
+    setError: setPasswordErrorMessage,
   } = useInput({
     dafaultValue: 'emilyspass',
     maxLength: 20,
@@ -38,6 +41,7 @@ const SignupPage = () => {
     onBlurHandler: handleEmailBlur,
     onChangeHandler: handleEmailChange,
     error: emailErrorMessage,
+    setError: setEmailErrorMessage,
   } = useInput({
     dafaultValue: '',
     type: 'email',
@@ -47,6 +51,7 @@ const SignupPage = () => {
     onBlurHandler: handleNameBlur,
     onChangeHandler: handleNameChange,
     error: nameErrorMessage,
+    setError: setNameErrorMessage,
   } = useInput({
     dafaultValue: '',
     type: 'name',
@@ -92,7 +97,25 @@ const SignupPage = () => {
       setDateOfBirthErrorMessage('Please select a date of birth');
     }
   };
-  console.log('date of birth', dateOfBirthErrorMessage);
+
+  const canSubmitForm = function () {
+    if (!email) {
+      setEmailErrorMessage("can't be empty");
+    } else if (!userName) {
+      setUserNameErrorMessage("can't be empty");
+    } else if (!password) {
+      setPasswordErrorMessage("can't be empty");
+    } else if (!name) {
+      setNameErrorMessage("can't be empty");
+    } else if (!dateOfBirth) {
+      setDateOfBirthErrorMessage('Please select a date of birth');
+    } else if (!gender) {
+      setGenderErrorMessage('Please select a gender');
+    }
+    const result =
+      email && userName && password && name && dateOfBirth && gender;
+    return result;
+  };
 
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
@@ -109,17 +132,11 @@ const SignupPage = () => {
       dateOfBirth: dateOfBirth?.toISOString(),
     };
 
-    if (
-      !userNameErrorMessage &&
-      !emailErrorMessage &&
-      !nameErrorMessage &&
-      !passwordErrorMessage &&
-      !dateOfBirthErrorMessage &&
-      !genderErrorMessage
-    ) {
+    if (canSubmitForm()) {
       setIsLoading(true);
       const response = await authenticateUser(requestBody);
       if (response.token) {
+        setUserIntoLocalStorage(JSON.stringify(response));
         router.push('/');
       }
       setIsLoading(false);
@@ -267,7 +284,7 @@ const SignupPage = () => {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Already a member? {/* {`Don't have an account?`}{" "} */}
+          Already a member?
           <Link
             href="/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 underline"

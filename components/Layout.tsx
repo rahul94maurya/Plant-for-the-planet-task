@@ -6,7 +6,6 @@ import localFont from 'next/font/local';
 
 const geistSans = localFont({
   src: '../fonts/GeistVF.woff',
-  //   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
   weight: '100 900',
 });

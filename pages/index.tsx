@@ -1,24 +1,16 @@
-import Image from 'next/image';
-import localFont from 'next/font/local';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { getAuthStatus } from '@/lib/utility/localStorage';
 
-// const geistSans = localFont({
-//   src: './fonts/GeistVF.woff',
-//   variable: '--font-geist-sans',
-//   weight: '100 900',
-// });
-// const geistMono = localFont({
-//   src: './fonts/GeistMonoVF.woff',
-//   variable: '--font-geist-mono',
-//   weight: '100 900',
-// });
-
-// function classNames(...classes) {
-//   return classes.filter(Boolean).join(" ");
-// }
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    const isAuthenticate = getAuthStatus();
+    if (!isAuthenticate) {
+      router.replace('/login');
+    }
+  }, [router]);
+
   return (
     <div
       className={`items-center justify-items-center gap-16  font-[family-name:var(--font-geist-sans)]`}

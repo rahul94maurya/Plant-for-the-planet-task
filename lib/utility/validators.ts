@@ -80,9 +80,7 @@ export const getNameError = function ({
   maxLength = 20,
 }: UserNameErrorProps) {
   let errorMessage = didEdit && inputValue.length === 0 ? "can't be empty" : '';
-  // if (didEdit && inputValue.length !== 0 && inputValue.length < minLength) {
-  //   errorMessage = `Password must be at least ${minLength} characters long`;
-  // }
+
   if (inputValue.length > maxLength) {
     errorMessage = `cannot be greater than ${maxLength}`;
   }

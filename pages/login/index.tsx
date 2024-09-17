@@ -4,6 +4,7 @@ import { authenticateUser } from '@/services/api';
 import { useRouter } from 'next/router';
 import Input from '@/components/shared/Input';
 import { useInput } from '@/hooks/useInput';
+import { setUserIntoLocalStorage } from '@/lib/utility/localStorage';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -41,12 +42,12 @@ const LoginPage = () => {
     if (!userNameErrorMessage && !passwordErrorMessage) {
       setIsLoading(true);
       const response = await authenticateUser(requestBody);
-      localStorage.setItem('authStatus', JSON.stringify(response));
       if (response.token) {
+        setUserIntoLocalStorage(JSON.stringify(response));
         router.push('/');
       }
       setIsLoading(false);
-      console.log('response data from API', response);
+      // console.log('response data from API', response);
     }
   };
 

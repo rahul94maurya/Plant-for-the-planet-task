@@ -1,4 +1,4 @@
-import { genders } from '@/lib/constants';
+import { genders } from '@/lib/data/constants';
 import { authenticateUser } from '@/services/api';
 import Link from 'next/link';
 import React, { useState } from 'react';
