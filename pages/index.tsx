@@ -1,15 +1,4 @@
-import { useRouter } from 'next/router';
-import { getAuthStatus } from '@/lib/utility/localStorage';
-
 export default function Home() {
-  const router = useRouter();
-  if (typeof localStorage !== 'undefined') {
-    const isAuthenticate = getAuthStatus();
-    if (!isAuthenticate) {
-      router.replace('/login');
-    }
-  }
-
   return (
     <div
       className={`items-center justify-items-center gap-16  font-[family-name:var(--font-geist-sans)]`}
