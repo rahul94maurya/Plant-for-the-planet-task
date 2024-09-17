@@ -10,17 +10,20 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const isAuthenticate = getAuthStatus();
-    if (!isAuthenticate && router.pathname === '/signup') {
-      router.replace('/signup');
-    } else if (!isAuthenticate && router.pathname !== '/login') {
-      router.replace('/login');
-    } else if (
-      (isAuthenticate && router.pathname === '/login') ||
-      (isAuthenticate && router.pathname === '/signup')
-    ) {
-      router.replace('/');
+
+    if (isAuthenticate) {
+      if (router.pathname === '/login' || router.pathname === '/signup') {
+        router.replace('/');
+      }
     }
-  }, [router]);
+    if (!isAuthenticate) {
+      if (router.pathname !== '/login' && router.pathname === '/signup') {
+        router.replace('/signup');
+      } else {
+        router.replace('/login');
+      }
+    }
+  }, []);
 
   // Exclude login and signup routes
   if (router.pathname === '/login' || router.pathname === '/signup') {
