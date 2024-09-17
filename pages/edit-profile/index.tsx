@@ -6,11 +6,17 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/router';
 import Input from '@/components/shared/Input';
 import { useInput } from '@/hooks/useInput';
-import { setUserIntoLocalStorage } from '@/lib/utility/localStorage';
+import {
+  getDummyUser,
+  setUserIntoLocalStorage,
+} from '@/lib/utility/localStorage';
 
 const ProfilePage = () => {
   const router = useRouter();
-
+  let user: any = {};
+  if (typeof localStorage !== 'undefined') {
+    user = JSON.parse(getDummyUser() as string);
+  }
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,
@@ -18,7 +24,7 @@ const ProfilePage = () => {
     error: userNameErrorMessage,
     setError: setUserNameErrorMessage,
   } = useInput({
-    dafaultValue: '',
+    dafaultValue: user?.userName || '',
     maxLength: 10,
     minLength: 6,
     type: 'username',
@@ -31,7 +37,7 @@ const ProfilePage = () => {
     error: emailErrorMessage,
     setError: setEmailErrorMessage,
   } = useInput({
-    dafaultValue: '',
+    dafaultValue: user?.email || '',
     type: 'email',
   });
   const {
@@ -41,16 +47,18 @@ const ProfilePage = () => {
     error: nameErrorMessage,
     setError: setNameErrorMessage,
   } = useInput({
-    dafaultValue: '',
+    dafaultValue: user?.name || '',
     type: 'name',
   });
 
-  const [dateOfBirth, setDateOfBirth] = useState<Date | null>();
+  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(
+    user?.dateOfBirth
+  );
   const [dateOfBirthErrorMessage, setDateOfBirthErrorMessage] = useState('');
 
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState(user?.gender || '');
   const [genderErrorMessage, setGenderErrorMessage] = useState('');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(user?.description || '');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDescriptionChange = (

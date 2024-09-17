@@ -5,6 +5,7 @@ import React from 'react';
 
 const Header = () => {
   const router = useRouter();
+
   const handleLogout = function () {
     // localStorage.removeItem('authStatus');
     removeUserFromLocalStorage();
@@ -27,7 +28,7 @@ const Header = () => {
             href="/edit-profile"
             className="text-xl font-bold tracking-tight text-gray-900"
           >
-            Profile
+            Edit-Profile
           </Link>
           <div>
             <button

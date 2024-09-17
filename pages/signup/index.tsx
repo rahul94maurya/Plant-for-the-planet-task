@@ -7,7 +7,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/router';
 import { useInput } from '@/hooks/useInput';
 import Input from '@/components/shared/Input';
-import { setUserIntoLocalStorage } from '@/lib/utility/localStorage';
+import {
+  setDummyUserIntoLocalStorage,
+  setUserIntoLocalStorage,
+} from '@/lib/utility/localStorage';
 
 const SignupPage = () => {
   const router = useRouter();
@@ -138,6 +141,7 @@ const SignupPage = () => {
       const response = await authenticateUser(requestBody);
       if (response.token) {
         setUserIntoLocalStorage(JSON.stringify(response));
+        setDummyUserIntoLocalStorage(JSON.stringify(requestBody)); //
         router.push('/');
       }
       setIsLoading(false);
