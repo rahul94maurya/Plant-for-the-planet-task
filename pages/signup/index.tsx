@@ -52,9 +52,11 @@ const SignupPage = () => {
     type: 'name',
   });
 
-  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(new Date());
+  const [dateOfBirth, setDateOfBirth] = useState<Date | null>();
+  const [dateOfBirthErrorMessage, setDateOfBirthErrorMessage] = useState('');
 
   const [gender, setGender] = useState('');
+  const [genderErrorMessage, setGenderErrorMessage] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -63,9 +65,34 @@ const SignupPage = () => {
   ) => {
     setDescription(event.target.value);
   };
+
   const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGender(event.target.value);
+    const selectedValue = event.target.value;
+    if (selectedValue) {
+      setGenderErrorMessage('');
+    } else {
+      setGenderErrorMessage('Please select a gender');
+    }
+    setGender(selectedValue);
   };
+
+  const handleGenderBlur = function () {
+    if (gender.length === 0) {
+      setGenderErrorMessage('Please select a gender');
+    }
+  };
+  const handleDateOfBirthChange = function (date: Date | null) {
+    if (date) {
+      setDateOfBirthErrorMessage('');
+    }
+    setDateOfBirth(date);
+  };
+  const handleDateOfBirthBlur = function () {
+    if (!dateOfBirth) {
+      setDateOfBirthErrorMessage('Please select a date of birth');
+    }
+  };
+  console.log('date of birth', dateOfBirthErrorMessage);
 
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
@@ -81,11 +108,14 @@ const SignupPage = () => {
       password,
       dateOfBirth: dateOfBirth?.toISOString(),
     };
+
     if (
       !userNameErrorMessage &&
       !emailErrorMessage &&
       !nameErrorMessage &&
-      !passwordErrorMessage
+      !passwordErrorMessage &&
+      !dateOfBirthErrorMessage &&
+      !genderErrorMessage
     ) {
       setIsLoading(true);
       const response = await authenticateUser(requestBody);
@@ -165,7 +195,8 @@ const SignupPage = () => {
                   name="startDate"
                   id="startDate"
                   selected={dateOfBirth}
-                  onChange={(date: Date | null) => setDateOfBirth(date)}
+                  onChange={handleDateOfBirthChange}
+                  onBlur={handleDateOfBirthBlur}
                   maxDate={new Date()}
                   peekNextMonth
                   showMonthDropdown
@@ -175,8 +206,10 @@ const SignupPage = () => {
                   yearDropdownItemNumber={100}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   dateFormat="dd/MM/yyyy"
-                  required
                 />
+                {dateOfBirthErrorMessage && (
+                  <div className="text-red-700">{dateOfBirthErrorMessage}</div>
+                )}
               </div>
             </div>
             <div className="sm:w-1/2">
@@ -190,6 +223,7 @@ const SignupPage = () => {
                 <select
                   value={gender}
                   onChange={handleGenderChange}
+                  onBlur={handleGenderBlur}
                   className="block w-full font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value="">Select your gender</option>
@@ -199,6 +233,9 @@ const SignupPage = () => {
                     </option>
                   ))}
                 </select>
+                {genderErrorMessage && (
+                  <div className="text-red-700">{genderErrorMessage}</div>
+                )}
               </div>
             </div>
           </div>
