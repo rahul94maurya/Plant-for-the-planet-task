@@ -9,7 +9,3 @@ export const getAuthStatus = function () {
 export const removeUserFromLocalStorage = function () {
   localStorage.removeItem('user');
 };
-
-// export const getAuthStatus = function () {
-//   return localStorage.getItem('authToken');
-// };

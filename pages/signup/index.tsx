@@ -7,10 +7,19 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/router';
 import { useInput } from '@/hooks/useInput';
 import Input from '@/components/shared/Input';
-import { setUserIntoLocalStorage } from '@/lib/utility/localStorage';
+import {
+  getAuthStatus,
+  setUserIntoLocalStorage,
+} from '@/lib/utility/localStorage';
 
 const SignupPage = () => {
   const router = useRouter();
+  if (typeof localStorage !== 'undefined') {
+    const isAuthenticate = getAuthStatus();
+    if (isAuthenticate) {
+      router.replace('/');
+    }
+  }
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,

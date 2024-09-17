@@ -4,15 +4,25 @@ import { authenticateUser } from '@/services/api';
 import { useRouter } from 'next/router';
 import Input from '@/components/shared/Input';
 import { useInput } from '@/hooks/useInput';
-import { setUserIntoLocalStorage } from '@/lib/utility/localStorage';
+import {
+  getAuthStatus,
+  setUserIntoLocalStorage,
+} from '@/lib/utility/localStorage';
 
 const LoginPage = () => {
   const router = useRouter();
+  if (typeof localStorage !== 'undefined') {
+    const isAuthenticate = getAuthStatus();
+    if (isAuthenticate) {
+      router.replace('/');
+    }
+  }
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,
     onChangeHandler: handleUserNameChange,
     error: userNameErrorMessage,
+    setError: setUserNameErrorMessage,
   } = useInput({
     dafaultValue: 'emilys',
     maxLength: 10,
@@ -25,6 +35,7 @@ const LoginPage = () => {
     onBlurHandler: handlePasswordBlur,
     onChangeHandler: handlePasswordChange,
     error: passwordErrorMessage,
+    setError: setPasswordErrorMessage,
   } = useInput({
     dafaultValue: 'emilyspass',
     maxLength: 20,
@@ -34,12 +45,21 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const canSubmitForm = function () {
+    if (!userName) {
+      setUserNameErrorMessage('Username is required');
+    } else if (!password) {
+      setPasswordErrorMessage('Password is required');
+    }
+    return userName && password;
+  };
+
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
   ) {
     const requestBody = { username: 'emilys', password: 'emilyspass' };
     event.preventDefault();
-    if (!userNameErrorMessage && !passwordErrorMessage) {
+    if (canSubmitForm()) {
       setIsLoading(true);
       const response = await authenticateUser(requestBody);
       if (response.token) {
