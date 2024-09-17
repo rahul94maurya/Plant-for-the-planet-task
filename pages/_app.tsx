@@ -11,7 +11,13 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const isAuthenticate = getAuthStatus();
     if (!isAuthenticate && router.pathname !== '/login') {
-      router.push('/login');
+      router.replace('/login');
+    }
+    if (
+      (isAuthenticate && router.pathname === '/login') ||
+      (isAuthenticate && router.pathname === '/signup')
+    ) {
+      router.replace('/');
     }
   }, [router]);
 

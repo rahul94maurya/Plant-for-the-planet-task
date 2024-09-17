@@ -11,12 +11,12 @@ import {
 
 const LoginPage = () => {
   const router = useRouter();
-  if (typeof localStorage !== 'undefined') {
-    const isAuthenticate = getAuthStatus();
-    if (isAuthenticate) {
-      router.replace('/');
-    }
-  }
+  // if (typeof localStorage !== 'undefined') {
+  //   const isAuthenticate = getAuthStatus();
+  //   if (isAuthenticate) {
+  //     router.replace('/');
+  //   }
+  // }
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,
