@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '@/lib/constants';
+import { API_BASE_URL } from '@/lib/data/constants';
 
 export const authenticateUser = async function (requestBody: any) {
   const loginData = { username: 'emilys', password: 'emilyspass' };

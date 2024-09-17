@@ -1,4 +1,4 @@
-import { genders } from '@/lib/constants';
+import { genders } from '@/lib/data/constants';
 import { authenticateUser } from '@/services/api';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -7,16 +7,27 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/router';
 import { useInput } from '@/hooks/useInput';
 import Input from '@/components/shared/Input';
+import {
+  getAuthStatus,
+  setUserIntoLocalStorage,
+} from '@/lib/utility/localStorage';
 
 const SignupPage = () => {
   const router = useRouter();
+  if (typeof localStorage !== 'undefined') {
+    const isAuthenticate = getAuthStatus();
+    if (isAuthenticate) {
+      router.replace('/');
+    }
+  }
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,
     onChangeHandler: handleUserNameChange,
     error: userNameErrorMessage,
+    setError: setUserNameErrorMessage,
   } = useInput({
-    dafaultValue: 'emilys',
+    dafaultValue: '',
     maxLength: 10,
     minLength: 6,
     type: 'username',
@@ -27,6 +38,7 @@ const SignupPage = () => {
     onBlurHandler: handlePasswordBlur,
     onChangeHandler: handlePasswordChange,
     error: passwordErrorMessage,
+    setError: setPasswordErrorMessage,
   } = useInput({
     dafaultValue: 'emilyspass',
     maxLength: 20,
@@ -38,6 +50,7 @@ const SignupPage = () => {
     onBlurHandler: handleEmailBlur,
     onChangeHandler: handleEmailChange,
     error: emailErrorMessage,
+    setError: setEmailErrorMessage,
   } = useInput({
     dafaultValue: '',
     type: 'email',
@@ -47,14 +60,17 @@ const SignupPage = () => {
     onBlurHandler: handleNameBlur,
     onChangeHandler: handleNameChange,
     error: nameErrorMessage,
+    setError: setNameErrorMessage,
   } = useInput({
     dafaultValue: '',
     type: 'name',
   });
 
-  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(new Date());
+  const [dateOfBirth, setDateOfBirth] = useState<Date | null>();
+  const [dateOfBirthErrorMessage, setDateOfBirthErrorMessage] = useState('');
 
   const [gender, setGender] = useState('');
+  const [genderErrorMessage, setGenderErrorMessage] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -63,8 +79,51 @@ const SignupPage = () => {
   ) => {
     setDescription(event.target.value);
   };
+
   const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGender(event.target.value);
+    const selectedValue = event.target.value;
+    if (selectedValue) {
+      setGenderErrorMessage('');
+    } else {
+      setGenderErrorMessage('Please select a gender');
+    }
+    setGender(selectedValue);
+  };
+
+  const handleGenderBlur = function () {
+    if (gender.length === 0) {
+      setGenderErrorMessage('Please select a gender');
+    }
+  };
+  const handleDateOfBirthChange = function (date: Date | null) {
+    if (date) {
+      setDateOfBirthErrorMessage('');
+    }
+    setDateOfBirth(date);
+  };
+  const handleDateOfBirthBlur = function () {
+    if (!dateOfBirth) {
+      setDateOfBirthErrorMessage('Please select a date of birth');
+    }
+  };
+
+  const canSubmitForm = function () {
+    if (!email) {
+      setEmailErrorMessage("can't be empty");
+    } else if (!userName) {
+      setUserNameErrorMessage("can't be empty");
+    } else if (!password) {
+      setPasswordErrorMessage("can't be empty");
+    } else if (!name) {
+      setNameErrorMessage("can't be empty");
+    } else if (!dateOfBirth) {
+      setDateOfBirthErrorMessage('Please select a date of birth');
+    } else if (!gender) {
+      setGenderErrorMessage('Please select a gender');
+    }
+    const result =
+      email && userName && password && name && dateOfBirth && gender;
+    return result;
   };
 
   const handleFormSubmit = async function (
@@ -81,15 +140,12 @@ const SignupPage = () => {
       password,
       dateOfBirth: dateOfBirth?.toISOString(),
     };
-    if (
-      !userNameErrorMessage &&
-      !emailErrorMessage &&
-      !nameErrorMessage &&
-      !passwordErrorMessage
-    ) {
+
+    if (canSubmitForm()) {
       setIsLoading(true);
       const response = await authenticateUser(requestBody);
       if (response.token) {
+        setUserIntoLocalStorage(JSON.stringify(response));
         router.push('/');
       }
       setIsLoading(false);
@@ -165,7 +221,8 @@ const SignupPage = () => {
                   name="startDate"
                   id="startDate"
                   selected={dateOfBirth}
-                  onChange={(date: Date | null) => setDateOfBirth(date)}
+                  onChange={handleDateOfBirthChange}
+                  onBlur={handleDateOfBirthBlur}
                   maxDate={new Date()}
                   peekNextMonth
                   showMonthDropdown
@@ -175,8 +232,10 @@ const SignupPage = () => {
                   yearDropdownItemNumber={100}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   dateFormat="dd/MM/yyyy"
-                  required
                 />
+                {dateOfBirthErrorMessage && (
+                  <div className="text-red-700">{dateOfBirthErrorMessage}</div>
+                )}
               </div>
             </div>
             <div className="sm:w-1/2">
@@ -190,6 +249,7 @@ const SignupPage = () => {
                 <select
                   value={gender}
                   onChange={handleGenderChange}
+                  onBlur={handleGenderBlur}
                   className="block w-full font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value="">Select your gender</option>
@@ -199,6 +259,9 @@ const SignupPage = () => {
                     </option>
                   ))}
                 </select>
+                {genderErrorMessage && (
+                  <div className="text-red-700">{genderErrorMessage}</div>
+                )}
               </div>
             </div>
           </div>
@@ -230,7 +293,7 @@ const SignupPage = () => {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Already a member? {/* {`Don't have an account?`}{" "} */}
+          Already a member?
           <Link
             href="/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 underline"
