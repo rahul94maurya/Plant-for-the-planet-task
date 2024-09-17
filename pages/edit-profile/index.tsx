@@ -8,7 +8,7 @@ import Input from '@/components/shared/Input';
 import { useInput } from '@/hooks/useInput';
 import {
   getDummyUser,
-  setUserIntoLocalStorage,
+  setDummyUserIntoLocalStorage,
 } from '@/lib/utility/localStorage';
 
 type userData = {
@@ -28,6 +28,7 @@ const ProfilePage = () => {
   }
   const {
     inputValue: userName,
+    setInputValue: setUserName,
     onBlurHandler: handleUserNameBlur,
     onChangeHandler: handleUserNameChange,
     error: userNameErrorMessage,
@@ -41,6 +42,7 @@ const ProfilePage = () => {
 
   const {
     inputValue: email,
+    setInputValue: setEmail,
     onBlurHandler: handleEmailBlur,
     onChangeHandler: handleEmailChange,
     error: emailErrorMessage,
@@ -51,6 +53,7 @@ const ProfilePage = () => {
   });
   const {
     inputValue: name,
+    setInputValue: setName,
     onBlurHandler: handleNameBlur,
     onChangeHandler: handleNameChange,
     error: nameErrorMessage,
@@ -66,6 +69,7 @@ const ProfilePage = () => {
   const [dateOfBirthErrorMessage, setDateOfBirthErrorMessage] = useState('');
 
   const [gender, setGender] = useState(user?.gender || '');
+
   const [genderErrorMessage, setGenderErrorMessage] = useState('');
   const [description, setDescription] = useState(user?.description || '');
   const [isLoading, setIsLoading] = useState(false);
@@ -130,22 +134,29 @@ const ProfilePage = () => {
       name,
       description,
       gender,
-      dateOfBirth: dateOfBirth?.toISOString(),
+      dateOfBirth: new Date(dateOfBirth as Date)?.toISOString(),
     };
     if (canSubmitForm()) {
       setIsLoading(true);
       const response = await authenticateUser(requestBody);
       if (response.token) {
-        setUserIntoLocalStorage(JSON.stringify(response));
+        setDummyUserIntoLocalStorage(JSON.stringify(requestBody));
         router.push('/');
       }
       setIsLoading(false);
       console.log('Form submitted:', requestBody);
     }
   };
-
+  const handleCancelRequest = function () {
+    setDateOfBirth(user?.dateOfBirth);
+    setGender(user?.gender);
+    setDescription(user?.description);
+    setName(user?.name);
+    setEmail(user?.email);
+    setUserName(user?.userName);
+  };
   return (
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm mb-10">
+    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm mb-10 px-4">
       <h2 className="text-lg font-semibold leading-7 text-gray-900 mb-4">
         Personal Information
       </h2>
@@ -226,9 +237,9 @@ const ProfilePage = () => {
                 className="block w-full font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
                 <option value="">Select your gender</option>
-                {genders.map((gender) => (
-                  <option key={gender.value} value={gender.value}>
-                    {gender.label}
+                {genders.map((ele) => (
+                  <option key={ele.value} value={ele.value}>
+                    {ele.label}
                   </option>
                 ))}
               </select>
@@ -257,7 +268,8 @@ const ProfilePage = () => {
         </div>
         <div className="flex justify-end gap-3">
           <button
-            type="submit"
+            type="button"
+            onClick={handleCancelRequest}
             className="flex min-w-20   justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Cancel

@@ -55,5 +55,6 @@ export const useInput = ({
     didEdit,
     error,
     setError,
+    setInputValue,
   };
 };
