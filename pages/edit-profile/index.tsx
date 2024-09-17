@@ -11,9 +11,18 @@ import {
   setUserIntoLocalStorage,
 } from '@/lib/utility/localStorage';
 
+type userData = {
+  email: string;
+  userName: string;
+  name: string;
+  description: string;
+  gender: string;
+  password: string;
+  dateOfBirth: Date;
+};
 const ProfilePage = () => {
   const router = useRouter();
-  let user: any = {};
+  let user: userData = {} as userData;
   if (typeof localStorage !== 'undefined') {
     user = JSON.parse(getDummyUser() as string);
   }
