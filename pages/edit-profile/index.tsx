@@ -143,6 +143,8 @@ const ProfilePage = () => {
       if (response.token) {
         setDummyUserIntoLocalStorage(JSON.stringify(requestBody));
         router.push('/');
+      } else {
+        console.log('response', response);
       }
       setIsLoading(false);
       console.log('Form submitted:', requestBody);
