@@ -10,6 +10,7 @@ import {
   getDummyUser,
   setDummyUserIntoLocalStorage,
 } from '@/lib/utility/localStorage';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 
 type userData = {
   email: string;
@@ -142,6 +143,8 @@ const ProfilePage = () => {
       if (response.token) {
         setDummyUserIntoLocalStorage(JSON.stringify(requestBody));
         router.push('/');
+      } else {
+        console.log('response', response);
       }
       setIsLoading(false);
       console.log('Form submitted:', requestBody);
@@ -282,6 +285,7 @@ const ProfilePage = () => {
           </button>
         </div>
       </form>
+      <ConfirmationModal isOpen={true} />
     </div>
   );
 };
