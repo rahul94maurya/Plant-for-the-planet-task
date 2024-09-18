@@ -1,36 +1,48 @@
 import { removeUserFromLocalStorage } from '@/lib/utility/localStorage';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
+import ConfirmationModal from './shared/ConfirmationModal';
+import Image from 'next/image';
+import logo from '@/public/logo.svg';
 
 const Header = () => {
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+  const handleModalClose = function (canDelete: boolean) {
+    if (canDelete) {
+      removeUserFromLocalStorage();
+      router.replace('/login');
+    } else {
+      setShowModal(false);
+    }
+  };
 
   const handleLogout = function () {
-    // localStorage.removeItem('authStatus');
-    removeUserFromLocalStorage();
-    router.replace('/login');
+    setShowModal(true);
   };
   return (
     <header className="bg-white shadow">
       <div className="flex items-center px-4">
         <Link href="/">
           <div className="flex-shrink-0">
-            <img
-              alt="Your Company"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              className="h-8 w-8"
+            <Image
+              alt="Logo"
+              src={logo}
+              width={36}
+              height={36}
+              className="h-10 w-10"
             />
           </div>
         </Link>
         <div className="flex items-center justify-between w-full px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex gap-4 items-center">
-            <Link
+            {/* <Link
               href="/"
               className="text-xl font-bold tracking-tight text-gray-900"
             >
               Home
-            </Link>
+            </Link> */}
             <Link
               href="/edit-profile"
               className="text-xl font-bold tracking-tight text-gray-900"
@@ -49,6 +61,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <ConfirmationModal isOpen={showModal} onClose={handleModalClose} />
     </header>
   );
 };
