@@ -68,9 +68,7 @@ const ProfilePage = () => {
     user?.dateOfBirth
   );
   const [dateOfBirthErrorMessage, setDateOfBirthErrorMessage] = useState('');
-
   const [gender, setGender] = useState(user?.gender || '');
-
   const [genderErrorMessage, setGenderErrorMessage] = useState('');
   const [description, setDescription] = useState(user?.description || '');
   const [isLoading, setIsLoading] = useState(false);
@@ -285,7 +283,7 @@ const ProfilePage = () => {
           </button>
         </div>
       </form>
-      <ConfirmationModal isOpen={true} />
+      {/* <ConfirmationModal isOpen={true} /> */}
     </div>
   );
 };

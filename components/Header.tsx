@@ -1,15 +1,23 @@
 import { removeUserFromLocalStorage } from '@/lib/utility/localStorage';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
+import ConfirmationModal from './shared/ConfirmationModal';
 
 const Header = () => {
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+  const handleModalClose = function (canDelete: boolean) {
+    if (canDelete) {
+      removeUserFromLocalStorage();
+      router.replace('/login');
+    } else {
+      setShowModal(false);
+    }
+  };
 
   const handleLogout = function () {
-    // localStorage.removeItem('authStatus');
-    removeUserFromLocalStorage();
-    router.replace('/login');
+    setShowModal(true);
   };
   return (
     <header className="bg-white shadow">
@@ -49,6 +57,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <ConfirmationModal isOpen={showModal} onClose={handleModalClose} />
     </header>
   );
 };
