@@ -10,7 +10,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const isAuthenticate = getAuthStatus();
-
     if (isAuthenticate) {
       if (router.pathname === '/login' || router.pathname === '/signup') {
         router.replace('/');
@@ -25,6 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, []);
 
+  if (router.pathname === '/404') {
+    return <Component {...pageProps} />;
+  }
   // Exclude login and signup routes
   if (router.pathname === '/login' || router.pathname === '/signup') {
     return <Component {...pageProps} />;
