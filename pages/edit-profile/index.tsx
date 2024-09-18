@@ -10,6 +10,7 @@ import {
   getDummyUser,
   setDummyUserIntoLocalStorage,
 } from '@/lib/utility/localStorage';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 
 type userData = {
   email: string;
@@ -282,6 +283,7 @@ const ProfilePage = () => {
           </button>
         </div>
       </form>
+      <ConfirmationModal isOpen={true} />
     </div>
   );
 };
