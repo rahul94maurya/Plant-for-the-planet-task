@@ -10,12 +10,6 @@ import logo from '@/public/logo.svg';
 
 const LoginPage = () => {
   const router = useRouter();
-  // if (typeof localStorage !== 'undefined') {
-  //   const isAuthenticate = getAuthStatus();
-  //   if (isAuthenticate) {
-  //     router.replace('/');
-  //   }
-  // }
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,

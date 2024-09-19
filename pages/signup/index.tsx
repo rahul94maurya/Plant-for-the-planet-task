@@ -1,4 +1,4 @@
-import { genders } from '@/lib/data/constants';
+import { GENDERS } from '@/lib/data/constants';
 import { authenticateUser } from '@/services/api';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -16,7 +16,6 @@ import logo from '@/public/logo.svg';
 
 const SignupPage = () => {
   const router = useRouter();
-
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,
@@ -92,6 +91,7 @@ const SignupPage = () => {
       setGenderErrorMessage('Please select a gender');
     }
   };
+
   const handleDateOfBirthChange = function (date: Date | null) {
     if (date) {
       setDateOfBirthErrorMessage('');
@@ -127,8 +127,6 @@ const SignupPage = () => {
     event: React.FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
-    // TODO: Add form submission logic here
-
     if (canSubmitForm()) {
       const requestBody = {
         email,
@@ -147,7 +145,6 @@ const SignupPage = () => {
         router.push('/');
       }
       setIsLoading(false);
-      console.log('Form submitted:', requestBody);
     }
   };
 
@@ -252,7 +249,7 @@ const SignupPage = () => {
                 className="block w-full h-9 font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
                 <option value="">Select your gender</option>
-                {genders.map((gender) => (
+                {GENDERS.map((gender) => (
                   <option key={gender.value} value={gender.value}>
                     {gender.label}
                   </option>

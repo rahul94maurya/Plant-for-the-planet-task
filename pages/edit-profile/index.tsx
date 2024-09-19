@@ -1,4 +1,4 @@
-import { genders } from '@/lib/data/constants';
+import { GENDERS } from '@/lib/data/constants';
 import { authenticateUser } from '@/services/api';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
@@ -10,16 +10,8 @@ import {
   getDummyUser,
   setDummyUserIntoLocalStorage,
 } from '@/lib/utility/localStorage';
+import { userData } from '@/types/pages.types';
 
-type userData = {
-  email: string;
-  userName: string;
-  name: string;
-  description: string;
-  gender: string;
-  password: string;
-  dateOfBirth: Date;
-};
 const ProfilePage = () => {
   const router = useRouter();
   let user: userData = {} as userData;
@@ -125,7 +117,6 @@ const ProfilePage = () => {
     event: React.FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
-    // TODO: Add form submission logic here
     if (canSubmitForm()) {
       const requestBody = {
         email,
@@ -144,7 +135,6 @@ const ProfilePage = () => {
         console.log('response', response);
       }
       setIsLoading(false);
-      console.log('Form submitted:', requestBody);
     }
   };
   const handleCancelRequest = function () {
@@ -236,7 +226,7 @@ const ProfilePage = () => {
               className="block w-full h-9 font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             >
               <option value="">Select your gender</option>
-              {genders.map((ele) => (
+              {GENDERS.map((ele) => (
                 <option key={ele.value} value={ele.value}>
                   {ele.label}
                 </option>
@@ -279,7 +269,6 @@ const ProfilePage = () => {
           </button>
         </div>
       </form>
-      {/* <ConfirmationModal isOpen={true} /> */}
     </div>
   );
 };

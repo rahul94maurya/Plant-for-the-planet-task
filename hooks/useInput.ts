@@ -4,14 +4,8 @@ import {
   getEmailError,
   getNameError,
 } from '@/lib/utility/validators';
+import { CustomInputHookProps } from '@/types/hooks.types';
 import { useState, useEffect } from 'react';
-
-type CustomInputHookProps = {
-  dafaultValue: string;
-  maxLength?: number;
-  minLength?: number;
-  type?: 'username' | 'password' | 'email' | 'name';
-};
 
 export const useInput = ({
   dafaultValue,

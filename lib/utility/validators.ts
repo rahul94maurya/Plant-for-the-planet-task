@@ -1,16 +1,11 @@
-type UserNameErrorProps = {
-  inputValue: string;
-  didEdit: boolean;
-  maxLength?: number;
-  minLength?: number;
-};
+import { ErrorProps } from '@/types/lib.types';
 
 export const getUserNameError = function ({
   inputValue,
   didEdit,
   maxLength = 20,
   minLength = 6,
-}: UserNameErrorProps) {
+}: ErrorProps) {
   let errorMessage = didEdit && inputValue.length === 0 ? "can't be empty" : '';
   if (didEdit && inputValue.length !== 0 && inputValue.length < minLength) {
     errorMessage = `Username must be at least ${minLength} characters long`;
@@ -36,7 +31,7 @@ export const getPasswordError = function ({
   didEdit,
   maxLength = 20,
   minLength = 8,
-}: UserNameErrorProps) {
+}: ErrorProps) {
   let errorMessage = didEdit && inputValue.length === 0 ? "can't be empty" : '';
   if (didEdit && inputValue.length !== 0 && inputValue.length < minLength) {
     errorMessage = `Password must be at least ${minLength} characters long`;
@@ -57,10 +52,7 @@ export const getPasswordError = function ({
   return errorMessage;
 };
 
-export const getEmailError = function ({
-  inputValue,
-  didEdit,
-}: UserNameErrorProps) {
+export const getEmailError = function ({ inputValue, didEdit }: ErrorProps) {
   let errorMessage = didEdit && inputValue.length === 0 ? "can't be empty" : '';
 
   if (
@@ -78,7 +70,7 @@ export const getNameError = function ({
   inputValue,
   didEdit,
   maxLength = 20,
-}: UserNameErrorProps) {
+}: ErrorProps) {
   let errorMessage = didEdit && inputValue.length === 0 ? "can't be empty" : '';
 
   if (inputValue.length > maxLength) {

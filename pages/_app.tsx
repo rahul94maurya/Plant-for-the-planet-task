@@ -27,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
   if (router.pathname === '/404') {
     return <Component {...pageProps} />;
   }
+
   // Exclude login and signup routes
   if (router.pathname === '/login' || router.pathname === '/signup') {
     return <Component {...pageProps} />;
