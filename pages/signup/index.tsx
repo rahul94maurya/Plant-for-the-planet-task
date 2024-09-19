@@ -128,17 +128,17 @@ const SignupPage = () => {
   ) {
     event.preventDefault();
     // TODO: Add form submission logic here
-    const requestBody = {
-      email,
-      userName,
-      name,
-      description,
-      gender,
-      password,
-      dateOfBirth: dateOfBirth?.toISOString(),
-    };
 
     if (canSubmitForm()) {
+      const requestBody = {
+        email,
+        userName,
+        name,
+        description,
+        gender,
+        password,
+        dateOfBirth: new Date(dateOfBirth as Date)?.toISOString(),
+      };
       setIsLoading(true);
       const response = await authenticateUser(requestBody);
       if (response.token) {
@@ -263,8 +263,6 @@ const SignupPage = () => {
               )}
             </div>
           </div>
-          <div className="sm:flex flex-col xs:space-y-6"></div>
-
           <div>
             <label
               htmlFor="about"
