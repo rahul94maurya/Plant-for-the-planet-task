@@ -208,63 +208,62 @@ const SignupPage = () => {
             onBlur={handleNameBlur}
           />
 
-          <div className="sm:flex items-center justify-between xs:space-y-6">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Date of Birth
-              </label>
-              <div className="mt-2 w-full">
-                <DatePicker
-                  name="startDate"
-                  id="startDate"
-                  selected={dateOfBirth}
-                  onChange={handleDateOfBirthChange}
-                  onBlur={handleDateOfBirthBlur}
-                  maxDate={new Date()}
-                  peekNextMonth
-                  showMonthDropdown
-                  showYearDropdown
-                  closeOnScroll={true}
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={100}
-                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  dateFormat="dd/MM/yyyy"
-                />
-                {dateOfBirthErrorMessage && (
-                  <div className="text-red-700">{dateOfBirthErrorMessage}</div>
-                )}
-              </div>
-            </div>
-            <div className="sm:w-1/2">
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Gender
-              </label>
-              <div className="block w-full mt-2">
-                <select
-                  value={gender}
-                  onChange={handleGenderChange}
-                  onBlur={handleGenderBlur}
-                  className="block w-full font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="">Select your gender</option>
-                  {genders.map((gender) => (
-                    <option key={gender.value} value={gender.value}>
-                      {gender.label}
-                    </option>
-                  ))}
-                </select>
-                {genderErrorMessage && (
-                  <div className="text-red-700">{genderErrorMessage}</div>
-                )}
-              </div>
+          <div className="w-full">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Date of Birth*
+            </label>
+            <div className="mt-2 customDatePickerWidth">
+              <DatePicker
+                name="startDate"
+                id="startDate"
+                selected={dateOfBirth}
+                onChange={handleDateOfBirthChange}
+                onBlur={handleDateOfBirthBlur}
+                maxDate={new Date()}
+                peekNextMonth
+                showMonthDropdown
+                showYearDropdown
+                closeOnScroll={true}
+                scrollableYearDropdown
+                yearDropdownItemNumber={100}
+                className="block w-full  rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                dateFormat="dd/MM/yyyy"
+              />
+              {dateOfBirthErrorMessage && (
+                <div className="text-red-700">{dateOfBirthErrorMessage}</div>
+              )}
             </div>
           </div>
+          <div className="w-full ">
+            <label
+              htmlFor="country"
+              className="block text-sm font-medium leading-6 text-gray-900 "
+            >
+              Gender*
+            </label>
+            <div className="block w-full mt-2 ">
+              <select
+                value={gender}
+                onChange={handleGenderChange}
+                onBlur={handleGenderBlur}
+                className="block w-full h-9 font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              >
+                <option value="">Select your gender</option>
+                {genders.map((gender) => (
+                  <option key={gender.value} value={gender.value}>
+                    {gender.label}
+                  </option>
+                ))}
+              </select>
+              {genderErrorMessage && (
+                <div className="text-red-700">{genderErrorMessage}</div>
+              )}
+            </div>
+          </div>
+          <div className="sm:flex flex-col xs:space-y-6"></div>
 
           <div>
             <label
