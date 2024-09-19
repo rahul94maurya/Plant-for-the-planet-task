@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { ConfirmationModalProps } from '@/types/components.types';
+import React from 'react';
 
-const AlertModal = function ({
+const ConfirmationModal = function ({
   isOpen,
   onClose,
-}: {
-  isOpen: boolean;
-  onClose: (status: boolean) => void;
-}) {
+}: ConfirmationModalProps) {
   return (
     <dialog
       className={`fixed top-0 px-4 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50 ${
@@ -37,4 +35,4 @@ const AlertModal = function ({
   );
 };
 
-export default AlertModal;
+export default ConfirmationModal;

@@ -1,11 +1,5 @@
-import React, { InputHTMLAttributes } from 'react';
-
-type InputProps = {
-  label: string;
-  id: string;
-  error?: string;
-  className?: string;
-} & InputHTMLAttributes<HTMLInputElement>;
+import { InputProps } from '@/types/components.types';
+import React from 'react';
 
 const Input = function ({ label, id, error, className, ...props }: InputProps) {
   return (

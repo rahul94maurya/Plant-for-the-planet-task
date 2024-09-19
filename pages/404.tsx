@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 function NotFound() {
-  // const router = useRouter();
-
   return (
-    <div className="not-found-page">
-      <h1>404 - Page Not Found</h1>
-      <p>The page you requested could not be found.</p>
-      <Link href="/">Go to Homepage</Link>
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="flex flex-col items-center">
+        <h1 className="font-semibold text-2xl mb-5">404 - Page Not Found</h1>
+        <Link href="/" className="text-lg">
+          Go to Homepage
+        </Link>
+      </div>
     </div>
   );
 }

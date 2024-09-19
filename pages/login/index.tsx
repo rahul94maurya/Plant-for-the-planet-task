@@ -10,12 +10,6 @@ import logo from '@/public/logo.svg';
 
 const LoginPage = () => {
   const router = useRouter();
-  // if (typeof localStorage !== 'undefined') {
-  //   const isAuthenticate = getAuthStatus();
-  //   if (isAuthenticate) {
-  //     router.replace('/');
-  //   }
-  // }
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,
@@ -56,9 +50,9 @@ const LoginPage = () => {
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
   ) {
-    const requestBody = { username: 'emilys', password: 'emilyspass' };
     event.preventDefault();
     if (canSubmitForm()) {
+      const requestBody = { userName, password };
       setIsLoading(true);
 
       const response = await authenticateUser(requestBody);

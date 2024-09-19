@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
 import Header from './Header';
-// import Footer from './Footer';
 import localFont from 'next/font/local';
 
 const geistSans = localFont({
@@ -25,7 +24,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </Head>
       <Header />
       <main>{children}</main>
-      {/* <Footer /> */}
     </div>
   );
 };

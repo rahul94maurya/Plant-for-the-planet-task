@@ -1,4 +1,4 @@
-import { genders } from '@/lib/data/constants';
+import { GENDERS } from '@/lib/data/constants';
 import { authenticateUser } from '@/services/api';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
@@ -10,17 +10,8 @@ import {
   getDummyUser,
   setDummyUserIntoLocalStorage,
 } from '@/lib/utility/localStorage';
-import ConfirmationModal from '@/components/shared/ConfirmationModal';
+import { userData } from '@/types/pages.types';
 
-type userData = {
-  email: string;
-  userName: string;
-  name: string;
-  description: string;
-  gender: string;
-  password: string;
-  dateOfBirth: Date;
-};
 const ProfilePage = () => {
   const router = useRouter();
   let user: userData = {} as userData;
@@ -126,16 +117,15 @@ const ProfilePage = () => {
     event: React.FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
-    // TODO: Add form submission logic here
-    const requestBody = {
-      email,
-      userName,
-      name,
-      description,
-      gender,
-      dateOfBirth: new Date(dateOfBirth as Date)?.toISOString(),
-    };
     if (canSubmitForm()) {
+      const requestBody = {
+        email,
+        userName,
+        name,
+        description,
+        gender,
+        dateOfBirth: new Date(dateOfBirth as Date)?.toISOString(),
+      };
       setIsLoading(true);
       const response = await authenticateUser(requestBody);
       if (response.token) {
@@ -145,7 +135,6 @@ const ProfilePage = () => {
         console.log('response', response);
       }
       setIsLoading(false);
-      console.log('Form submitted:', requestBody);
     }
   };
   const handleCancelRequest = function () {
@@ -193,64 +182,61 @@ const ProfilePage = () => {
           onChange={handleNameChange}
           onBlur={handleNameBlur}
         />
-        <div className="sm:flex items-center justify-between xs:space-y-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Date of Birth
-            </label>
-            <div className="mt-2 w-full">
-              <DatePicker
-                name="startDate"
-                id="startDate"
-                selected={dateOfBirth}
-                onChange={handleDateOfBirthChange}
-                onBlur={handleDateOfBirthBlur}
-                maxDate={new Date()}
-                peekNextMonth
-                showMonthDropdown
-                showYearDropdown
-                closeOnScroll={true}
-                scrollableYearDropdown
-                yearDropdownItemNumber={100}
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                dateFormat="dd/MM/yyyy"
-              />
-              {dateOfBirthErrorMessage && (
-                <div className="text-red-700">{dateOfBirthErrorMessage}</div>
-              )}
-            </div>
-          </div>
-          <div className="sm:w-1/2">
-            <label
-              htmlFor="country"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Gender
-            </label>
-            <div className="block w-full mt-2">
-              <select
-                value={gender}
-                onChange={handleGenderChange}
-                onBlur={handleGenderBlur}
-                className="block w-full font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              >
-                <option value="">Select your gender</option>
-                {genders.map((ele) => (
-                  <option key={ele.value} value={ele.value}>
-                    {ele.label}
-                  </option>
-                ))}
-              </select>
-              {genderErrorMessage && (
-                <div className="text-red-700">{genderErrorMessage}</div>
-              )}
-            </div>
+        <div className="w-full">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Date of Birth*
+          </label>
+          <div className="mt-2 customDatePickerWidth">
+            <DatePicker
+              name="startDate"
+              id="startDate"
+              selected={dateOfBirth}
+              onChange={handleDateOfBirthChange}
+              onBlur={handleDateOfBirthBlur}
+              maxDate={new Date()}
+              peekNextMonth
+              showMonthDropdown
+              showYearDropdown
+              closeOnScroll={true}
+              scrollableYearDropdown
+              yearDropdownItemNumber={100}
+              className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              dateFormat="dd/MM/yyyy"
+            />
+            {dateOfBirthErrorMessage && (
+              <div className="text-red-700">{dateOfBirthErrorMessage}</div>
+            )}
           </div>
         </div>
-
+        <div className="w-full">
+          <label
+            htmlFor="country"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Gender*
+          </label>
+          <div className="block w-full mt-2">
+            <select
+              value={gender}
+              onChange={handleGenderChange}
+              onBlur={handleGenderBlur}
+              className="block w-full h-9 font-medium rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            >
+              <option value="">Select your gender</option>
+              {GENDERS.map((ele) => (
+                <option key={ele.value} value={ele.value}>
+                  {ele.label}
+                </option>
+              ))}
+            </select>
+            {genderErrorMessage && (
+              <div className="text-red-700">{genderErrorMessage}</div>
+            )}
+          </div>
+        </div>
         <div>
           <label
             htmlFor="about"
@@ -271,7 +257,7 @@ const ProfilePage = () => {
           <button
             type="button"
             onClick={handleCancelRequest}
-            className="flex min-w-20   justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex min-w-20  justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Cancel
           </button>
@@ -283,7 +269,6 @@ const ProfilePage = () => {
           </button>
         </div>
       </form>
-      {/* <ConfirmationModal isOpen={true} /> */}
     </div>
   );
 };
