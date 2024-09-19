@@ -50,9 +50,9 @@ const LoginPage = () => {
   const handleFormSubmit = async function (
     event: React.FormEvent<HTMLFormElement>
   ) {
-    const requestBody = { username: 'emilys', password: 'emilyspass' };
     event.preventDefault();
     if (canSubmitForm()) {
+      const requestBody = { userName, password };
       setIsLoading(true);
 
       const response = await authenticateUser(requestBody);

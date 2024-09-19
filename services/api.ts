@@ -1,7 +1,8 @@
 import { API_BASE_URL } from '@/lib/data/constants';
+import { RequestBodyProps } from '@/types/services.types';
 import axios, { AxiosError } from 'axios';
 
-export const authenticateUser = async function (requestBody: any) {
+export const authenticateUser = async function (_: RequestBodyProps) {
   const loginData = { username: 'emilys', password: 'emilyspass' };
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, loginData, {
