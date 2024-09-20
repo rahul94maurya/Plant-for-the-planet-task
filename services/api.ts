@@ -3,6 +3,7 @@ import { RequestBodyProps } from '@/types/services.types';
 import axios, { AxiosError } from 'axios';
 
 export const authenticateUser = async function (_: RequestBodyProps) {
+  //As we don't have backend we are using this below data to making API calls
   const loginData = { username: 'emilys', password: 'emilyspass' };
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, loginData, {

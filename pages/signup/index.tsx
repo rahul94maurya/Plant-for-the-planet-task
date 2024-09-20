@@ -13,9 +13,16 @@ import {
 } from '@/lib/utility/localStorage';
 import Image from 'next/image';
 import logo from '@/public/logo.svg';
+import { AlertState } from '@/types/components.types';
+import Alert from '@/components/shared/Alert';
 
 const SignupPage = () => {
   const router = useRouter();
+  const [alert, setAlert] = useState<AlertState>({
+    isOpen: false,
+    message: '',
+    severity: null,
+  });
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,
@@ -69,6 +76,10 @@ const SignupPage = () => {
   const [genderErrorMessage, setGenderErrorMessage] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleAlertModalClose = function () {
+    setAlert({ message: '', severity: null, isOpen: false });
+  };
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -143,6 +154,12 @@ const SignupPage = () => {
         setUserIntoLocalStorage(JSON.stringify(response));
         setDummyUserIntoLocalStorage(JSON.stringify(requestBody)); //
         router.push('/');
+      } else {
+        setAlert({
+          isOpen: true,
+          severity: 'error',
+          message: response.error,
+        });
       }
       setIsLoading(false);
     }
@@ -151,6 +168,12 @@ const SignupPage = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <Alert
+          isOpen={alert.isOpen}
+          severity={alert.severity}
+          message={alert.message}
+          onClose={handleAlertModalClose}
+        />
         <Image
           alt="Logo"
           src={logo}
@@ -287,7 +310,7 @@ const SignupPage = () => {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Already a member?
+          Already a member?{' '}
           <Link
             href="/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 underline"

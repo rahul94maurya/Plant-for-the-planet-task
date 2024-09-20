@@ -7,9 +7,16 @@ import { useInput } from '@/hooks/useInput';
 import { setUserIntoLocalStorage } from '@/lib/utility/localStorage';
 import Image from 'next/image';
 import logo from '@/public/logo.svg';
+import { AlertState } from '@/types/components.types';
+import Alert from '@/components/shared/Alert';
 
 const LoginPage = () => {
   const router = useRouter();
+  const [alert, setAlert] = useState<AlertState>({
+    isOpen: false,
+    message: '',
+    severity: null,
+  });
   const {
     inputValue: userName,
     onBlurHandler: handleUserNameBlur,
@@ -38,6 +45,10 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleAlertModalClose = function () {
+    setAlert({ message: '', severity: null, isOpen: false });
+  };
+
   const canSubmitForm = function () {
     if (!userName) {
       setUserNameErrorMessage('Username is required');
@@ -60,7 +71,11 @@ const LoginPage = () => {
         setUserIntoLocalStorage(JSON.stringify(response));
         router.push('/');
       } else {
-        console.log('response', response);
+        setAlert({
+          isOpen: true,
+          severity: 'error',
+          message: response.error,
+        });
       }
 
       setIsLoading(false);
@@ -70,6 +85,12 @@ const LoginPage = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <Alert
+          isOpen={alert.isOpen}
+          severity={alert.severity}
+          message={alert.message}
+          onClose={handleAlertModalClose}
+        />
         <Image
           alt="Logo"
           src={logo}
@@ -116,7 +137,6 @@ const LoginPage = () => {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          {/* Not a member?{" "} */}
           {`Don't have an account?`}{' '}
           <Link
             href="/signup"
