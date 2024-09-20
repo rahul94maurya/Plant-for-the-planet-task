@@ -27,27 +27,6 @@ const Alert = ({ severity = null, message, onClose, isOpen }: AlertProps) => {
         }`}
       >
         <div className="flex items-center">
-          {/* <svg
-            className={`flex-shrink-0 h-6 w-6 ${
-              severity === 'error'
-                ? 'text-red-500'
-                : severity === 'warning'
-                ? 'text-yellow-500'
-                : severity === 'success'
-                ? 'text-green-500'
-                : 'text-blue-500'
-            }`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 9v2m0 4h.01m-6.97-7.07l-5.93 5.93c-0.35 0.35-0.35 0.88 0 1.23L12 17.78m8.29-8.29l-5.93-5.93c-0.35-0.35-0.35-0.88 0-1.23L16.97 4.07z"
-            />
-          </svg> */}
           <span className="ml-2">{message}</span>
         </div>
         <button

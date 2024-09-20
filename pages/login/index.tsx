@@ -8,7 +8,7 @@ import { setUserIntoLocalStorage } from '@/lib/utility/localStorage';
 import Image from 'next/image';
 import logo from '@/public/logo.svg';
 import { AlertState } from '@/types/components.types';
-import Alert from '@/components/shared/alert';
+import Alert from '@/components/shared/Alert';
 
 const LoginPage = () => {
   const router = useRouter();

@@ -14,7 +14,7 @@ import {
 import Image from 'next/image';
 import logo from '@/public/logo.svg';
 import { AlertState } from '@/types/components.types';
-import Alert from '@/components/shared/alert';
+import Alert from '@/components/shared/Alert';
 
 const SignupPage = () => {
   const router = useRouter();

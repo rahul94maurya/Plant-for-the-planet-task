@@ -11,7 +11,7 @@ import {
   setDummyUserIntoLocalStorage,
 } from '@/lib/utility/localStorage';
 import { userData } from '@/types/pages.types';
-import Alert from '@/components/shared/alert';
+import Alert from '@/components/shared/Alert';
 import { AlertState } from '@/types/components.types';
 
 const ProfilePage = () => {
