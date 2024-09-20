@@ -184,7 +184,6 @@ const ProfilePage = () => {
           id="userName"
           type="text"
           label="Username*"
-          placeholder="emilys"
           value={userName}
           error={userNameErrorMessage}
           onChange={handleUserNameChange}
@@ -195,7 +194,6 @@ const ProfilePage = () => {
           id="name"
           type="text"
           label="Name*"
-          placeholder="Rahul"
           value={name}
           error={nameErrorMessage}
           onChange={handleNameChange}
