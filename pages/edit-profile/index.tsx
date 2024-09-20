@@ -11,9 +11,16 @@ import {
   setDummyUserIntoLocalStorage,
 } from '@/lib/utility/localStorage';
 import { userData } from '@/types/pages.types';
+import Alert from '@/components/shared/alert';
+import { AlertState } from '@/types/components.types';
 
 const ProfilePage = () => {
   const router = useRouter();
+  const [alert, setAlert] = useState<AlertState>({
+    isOpen: false,
+    message: '',
+    severity: null,
+  });
   let user: userData = {} as userData;
   if (typeof localStorage !== 'undefined') {
     user = JSON.parse(getDummyUser() as string);
@@ -96,7 +103,9 @@ const ProfilePage = () => {
       setDateOfBirthErrorMessage('Please select a date of birth');
     }
   };
-
+  const handleAlertModalClose = function () {
+    setAlert({ message: '', severity: null, isOpen: false });
+  };
   const canSubmitForm = function () {
     if (!email) {
       setEmailErrorMessage("can't be empty");
@@ -132,7 +141,11 @@ const ProfilePage = () => {
         setDummyUserIntoLocalStorage(JSON.stringify(requestBody));
         router.push('/');
       } else {
-        console.log('response', response);
+        setAlert({
+          isOpen: true,
+          severity: 'error',
+          message: response.error,
+        });
       }
       setIsLoading(false);
     }
@@ -147,6 +160,12 @@ const ProfilePage = () => {
   };
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm mb-10 px-4">
+      <Alert
+        isOpen={alert.isOpen}
+        severity={alert.severity}
+        message={alert.message}
+        onClose={handleAlertModalClose}
+      />
       <h2 className="text-lg font-semibold leading-7 text-gray-900 mb-4">
         Personal Information
       </h2>
