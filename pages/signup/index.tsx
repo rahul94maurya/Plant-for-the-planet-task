@@ -201,7 +201,6 @@ const SignupPage = () => {
             id="userName"
             type="text"
             label="Username*"
-            placeholder="emilys"
             value={userName}
             error={userNameErrorMessage}
             onChange={handleUserNameChange}
@@ -211,7 +210,6 @@ const SignupPage = () => {
             id="password"
             type="password"
             label="Password*"
-            placeholder="emilyspass"
             value={password}
             error={passwordErrorMessage}
             onChange={handlePasswordChange}
@@ -221,7 +219,6 @@ const SignupPage = () => {
             id="name"
             type="text"
             label="Name*"
-            placeholder="Rahul"
             value={name}
             error={nameErrorMessage}
             onChange={handleNameChange}
