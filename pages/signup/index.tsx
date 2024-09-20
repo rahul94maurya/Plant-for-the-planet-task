@@ -43,7 +43,7 @@ const SignupPage = () => {
     error: passwordErrorMessage,
     setError: setPasswordErrorMessage,
   } = useInput({
-    dafaultValue: 'emilyspass',
+    dafaultValue: '',
     maxLength: 20,
     minLength: 8,
     type: 'password',
